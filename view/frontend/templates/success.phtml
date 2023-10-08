@@ -1,0 +1,40 @@
+<?php 
+    $order = $block->getOrder();
+?>
+
+<div class="checkout-success">
+    <p><?php echo __('Your order # is: <span>%1</span>.', $order->getIncrementId()) ?></p>
+
+    <?php if ($block->isPix): ?>
+        <div class="block-title" style="margin-bottom: 15px;">
+            <h2 class="bc-qrcode-title"><?= __("Waiting Payment")?></h2>
+            <p class="bc-qrcode-description"><?= __('O seu pedido foi gerado e está aguardando pagamento, <strong>caso não haja pagamento em até 10min, o pedido será cancelado automaticamente.</strong>')?></p>
+        </div>
+        <div class="box" style="width: 100%;">
+            <div class="bc-qrcode-section" style="width: 100%; display: flex; flex-direction: row;">
+                <div style="width: 30%; padding: 10px;" class="bc-qrcode-section-display">
+                    <img src="<?= $block->qrcode->render($block->pix['pix_qr_code']) ?>" alt="QR Code Pix" style="max-width: 100%; height: auto; display: block; margin: 0 auto; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; border-radius: 5px;" class="bc-qrcode-image">
+                </div>
+                <div style="width: 70%; padding: 10px;" class="bc-qrcode-section-information">
+                    <p class="bc-pix-text-copy-cta1"><strong><?= __('Pagar com PIX é fácil e rápido!')?></strong></p>
+                    <p class="bc-pix-text-copy-cta2"><?= __('COPIE OU ESCANEIE O QR CODE')?></p>
+                    <p class="bc-pix-text-copy-cta3"><?= __('Ao copiar o código, abra o aplicativo cadastrado no PIX e realize seu pagamento de forma rápida.')?></p>
+                    <button class="action primary bc-pix-text-copy-cta-button" onclick="copyToClipboard('<?= $block->pix['pix_qr_code'] ?>');"><?= __('Copy') ?></button>
+                </div>
+            </div>
+        </div>
+    <?php endif ?>
+
+    <p><?php echo __('We\'ll email you an order confirmation with details and tracking info.') ?></p>
+</div>
+
+<script>
+    function copyToClipboard(text) {
+        var input = document.createElement('input');
+        input.setAttribute('value', text);
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+    }
+</script>

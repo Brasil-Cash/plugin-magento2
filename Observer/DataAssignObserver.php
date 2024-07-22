@@ -4,7 +4,6 @@ namespace Brasilcash\Gateway\Observer;
 
 use Magento\Framework\Event\Observer;
 use Magento\Quote\Api\Data\PaymentInterface;
-use Psr\Log\LoggerInterface; // Importe a interface LoggerInterface
 
 class DataAssignObserver extends \Magento\Payment\Observer\AbstractDataAssignObserver
 {
@@ -17,14 +16,11 @@ class DataAssignObserver extends \Magento\Payment\Observer\AbstractDataAssignObs
         'cpf',
         'card_id',
         'payment_method',
+        'installments',
+        'screenWidth',
+        'screenHeight',
+        'userAgent'
     ];
-
-    protected $logger; // Declare o objeto logger
-
-    public function __construct(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
 
     /**
      * @inheritDoc
@@ -45,11 +41,6 @@ class DataAssignObserver extends \Magento\Payment\Observer\AbstractDataAssignObs
                 $paymentInfo->setAdditionalInformation(
                     $additionalInformationKey,
                     $additionalData[$additionalInformationKey]
-                );
-
-                // Adicione um log para as informações
-                $this->logger->info(
-                    'Observador DataAssignObserver: ' . $additionalInformationKey . ' - ' . $additionalData[$additionalInformationKey]
                 );
             }
         }

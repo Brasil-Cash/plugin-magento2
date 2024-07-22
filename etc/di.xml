@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <!-- Payment Method Facade configuration -->
     <virtualType name="BrasilcashGatewayFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
@@ -117,6 +118,13 @@
     <type name="Brasilcash\Gateway\Block\Info">
         <arguments>
             <argument name="config" xsi:type="object">BrasilcashPaymentGatewayConfig</argument>
+        </arguments>
+    </type>
+    <type name="Brasilcash\Gateway\Observer\RedirectAfterSuccess">
+        <arguments>
+            <argument name="redirect" xsi:type="object">Magento\Framework\App\Response\RedirectInterface</argument>
+            <argument name="url" xsi:type="object">Magento\Framework\UrlInterface</argument>
+            <argument name="response" xsi:type="object">Magento\Framework\App\ResponseInterface</argument>
         </arguments>
     </type>
 </config>

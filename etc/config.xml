@@ -9,11 +9,10 @@
                 <model>BrasilcashGatewayFacade</model>
                 <merchant_gateway_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <api_uri>http://api-prod.local</api_uri>
-                <payment_method_credit_card>1</payment_method_credit_card>
-                <payment_method_pix>1</payment_method_pix>
-                <payment_method_boleto>1</payment_method_boleto>
                 <order_status>pending_payment</order_status>
                 <payment_action>authorize</payment_action>
+                <threeDSecure>0</threeDSecure>
+                <onFailure>decline</onFailure>
                 <title>Brasil Cash</title>
                 <async>1</async>
                 <currency>BRL</currency>

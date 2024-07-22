@@ -20,9 +20,8 @@
 
         <form class="form" data-bind="attr: {'id': getCode() + '-form'}">
             <fieldset data-bind="attr: {class: 'fieldset payment items ccard ' + getCode(), id: 'payment_form_extra_' + getCode()}">
-                <h4>Metodo de pagamento</h4>
                 <!-- Método (Cartão, PIX) -->
-                <!-- ko if: enabledCreditCard() -->
+                <!-- ko if: hasOpenbanking() -->
                 <div class="field choice">
                     <input type="radio"
                            class="radio"
@@ -32,8 +31,6 @@
                         <span>Cartão de Crédito</span>
                     </label>
                 </div>
-                <!-- /ko -->
-                <!-- ko if: enabledPix() -->
                 <div class="field choice">
                     <input type="radio"
                            class="radio"
@@ -41,17 +38,6 @@
                            data-bind="attr: {'id': 'pix'}, value: 'pix', checked: paymentMethod" />
                     <label data-bind="attr: {'for': 'pix'}" class="label">
                         <span>PIX</span>
-                    </label>
-                </div>
-                <!-- /ko -->
-                <!-- ko if: enabledBoleto() -->
-                <div class="field choice">
-                    <input type="radio"
-                           class="radio"
-                           name="payment[bc_paymentMethod]"
-                           data-bind="attr: {'id': 'boleto'}, value: 'boleto', checked: paymentMethod" />
-                    <label data-bind="attr: {'for': 'boleto'}" class="label">
-                        <span>Boleto</span>
                     </label>
                 </div>
                 <!-- /ko -->
@@ -104,11 +90,7 @@
                 <!-- /ko -->
 
                 <!-- ko if: isPix -->
-                <div><p>O QRCode para pagamento do PIX ficará disponível no pedido após finalização da compra.</p></div>
-                <!-- /ko -->
-
-                <!-- ko if: isBoleto -->
-                <div><p>O código de barras para pagamento do Boleto ficará disponível no pedido após finalização da compra.</p></div>
+                <div><p>O QRCode para pagamento do PIX ficará disponível no pedido após finalização da ordem.</p></div>
                 <!-- /ko -->
             </fieldset>
 
@@ -116,6 +98,30 @@
             <!-- ko if: renderCardForm -->
                 <!-- ko template: 'Magento_Payment/payment/cc-form' --><!-- /ko -->
             <!-- /ko -->
+
+            <div class="field installments required">
+                <label for="installments" class="label">Parcelas</label>
+                <select id="installments" name="installments" data-bind="value: installments">
+                    <option value="1">1 Parcela</option>
+                    <option value="2">2 Parcelas</option>
+                    <option value="3">3 Parcelas</option>
+                    <option value="4">4 Parcelas</option>
+                    <option value="5">5 Parcelas</option>
+                    <option value="6">6 Parcelas</option>
+                    <option value="7">7 Parcelas</option>
+                    <option value="8">8 Parcelas</option>
+                    <option value="9">9 Parcelas</option>
+                    <option value="10">10 Parcelas</option>
+                    <option value="11">11 Parcelas</option>
+                    <option value="12">12 Parcelas</option>
+                    <option value="13">13 Parcelas</option>
+                    <option value="14">14 Parcelas</option>
+                    <option value="15">15 Parcelas</option>
+                    <option value="16">16 Parcelas</option>
+                    <option value="17">17 Parcelas</option>
+                    <option value="18">18 Parcelas</option>
+                </select>
+            </div>
         </form>
 
         <div class="checkout-agreements-block">

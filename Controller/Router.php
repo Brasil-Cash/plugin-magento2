@@ -8,7 +8,6 @@ use Magento\Framework\App\ActionInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\RouterInterface;
-use Magento\Framework\Logger\Monolog;
 
 /**
  * Class Router
@@ -24,7 +23,6 @@ class Router implements RouterInterface
      * @var ResponseInterface
      */
     private $response;
-    private $logger;
 
     /**
      * Router constructor.
@@ -38,7 +36,6 @@ class Router implements RouterInterface
     ) {
         $this->actionFactory = $actionFactory;
         $this->response = $response;
-        $this->logger = new Monolog("debug");
     }
 
     /**
@@ -66,10 +63,15 @@ class Router implements RouterInterface
             if (!$request->getHeader('X-Requested-With')) { // Required for POST route
                 $request->getHeaders()->addHeaders(['X-Requested-With' => 'XMLHttpRequest']);
             }
-            $webhookData = json_decode($request->getContent()); // Converte o JSON em um objeto stdClass
-            $this->logger->info('WEBHOOK: ' . json_encode($webhookData));
-            
-            $request->setParam('body', $webhookData);
+            $request->setParam('body', json_decode($request->getContent()));
+        } else if ($identifier === 'success') {
+            $request->setModuleName('brasilcash');
+            $request->setControllerName('checkout');
+            $request->setActionName('success');
+        } else if ($identifier === 'fail') {
+            $request->setModuleName('brasilcash');
+            $request->setControllerName('checkout');
+            $request->setActionName('fail');
         } else {
             return null;
         }

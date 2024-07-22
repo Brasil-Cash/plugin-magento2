@@ -16,7 +16,6 @@ class InstallStatus implements DataPatchInterface, PatchRevertableInterface
     public const STATUS_REFUNDED  = 'bc_refunded';
     public const STATUS_REFUSED  = 'bc_refused';
     public const STATUS_WAITING_PAYMENT  = 'bc_waiting_payment';
-    public const STATUS_CANCELED  = 'bc_canceled';
 
     public function __construct(ModuleDataSetupInterface $moduleDataSetup)
     {
@@ -35,7 +34,6 @@ class InstallStatus implements DataPatchInterface, PatchRevertableInterface
             self::STATUS_REFUNDED => __('Refunded'),
             self::STATUS_REFUSED => __('Refused'),
             self::STATUS_WAITING_PAYMENT => __('Waiting Payment'),
-            self::STATUS_CANCELED => __('Canceled'),
         ];
         $data = $states = [];
         foreach ($statuses as $code => $info) {
@@ -89,10 +87,6 @@ class InstallStatus implements DataPatchInterface, PatchRevertableInterface
         $adapter->delete(
             $this->moduleDataSetup->getTable('sales_order_status_state'),
             $adapter->quoteInto('status = ?', self::STATUS_WAITING_PAYMENT)
-        );
-        $adapter->delete(
-            $this->moduleDataSetup->getTable('sales_order_status_state'),
-            $adapter->quoteInto('status = ?', self::STATUS_CANCELED)
         );
     }
 

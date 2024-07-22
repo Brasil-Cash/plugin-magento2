@@ -45,9 +45,7 @@ class ConfigProvider extends CcConfigProvider implements \Magento\Checkout\Model
                 'cards' => $this->session->isLoggedIn()
                     ? $this->customerService->getCustomerCards($this->session->getCustomer()->getEmail())
                     : [],
-                'enabledCreditCard' => $this->transactionService->enabledCreditCard(),
-                'enabledPix' => $this->transactionService->enabledPix(),
-                'enabledBoleto' => $this->transactionService->enabledBoleto(),
+                'openbanking' => $this->transactionService->hasOpenbanking()
             ]
         ];
     }

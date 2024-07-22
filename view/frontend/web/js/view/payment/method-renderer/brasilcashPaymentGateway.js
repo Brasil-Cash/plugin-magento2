@@ -10,7 +10,8 @@ define(
                 template: 'Brasilcash_Gateway/payment/form',
                 cpf: '',
                 card_id: '',
-                paymentMethod: ''
+                paymentMethod: '',
+                installments: ''
             },
 
             initObservable: function () {
@@ -18,22 +19,20 @@ define(
                     .observe([
                         'cpf',
                         'card_id',
-                        'paymentMethod'
+                        'paymentMethod',
+                        'installments'
                     ]);
                 return this;
             },
 
             initialize: function () {
                 this._super();
-                this.paymentMethod(this.enabledCreditCard() ? 'credit_card' : '');
+                this.paymentMethod(this.hasOpenbanking() ? '' : 'credit_card');
                 this.isCreditCard = ko.computed(() => {
                     return this.paymentMethod() === 'credit_card';
                 });
                 this.isPix = ko.computed(() => {
                     return this.paymentMethod() === 'pix';
-                });
-                this.isBoleto = ko.computed(() => {
-                    return this.paymentMethod() === 'boleto';
                 });
                 this.renderCardForm = ko.computed(() => {
                     return !this.card_id() && this.isCreditCard();
@@ -59,6 +58,10 @@ define(
                         'cpf': this.cpf(),
                         'card_id': this.card_id(),
                         'payment_method': this.paymentMethod(),
+                        'installments': this.installments(),
+                        'screenWidth': window.innerWidth,
+                        'screenHeight' : window.innerHeight,
+                        'userAgent': window.navigator.userAgent
                     }
                 };
             },
@@ -71,16 +74,8 @@ define(
                 return this.getCards().length > 0;
             },
 
-            enabledPix: function () {
-                return window.checkoutConfig.payment.enabledPix;
-            },
-
-            enabledCreditCard: function () {
-                return window.checkoutConfig.payment.enabledCreditCard;
-            },
-
-            enabledBoleto: function () {
-                return window.checkoutConfig.payment.enabledBoleto;
+            hasOpenbanking: function () {
+                return window.checkoutConfig.payment.openbanking;
             },
 
             validate: function () {
@@ -100,19 +95,19 @@ define(
                     return true;
                 }
                 if (!this.card_id() && !this.creditCardNumber()) {
-                    alert('Informe o número do cartão de cŕedito.');
+                    alert('Informe o número do cartão de crédito.');
                     return false;
                 }
                 if (!this.card_id() && !this.creditCardExpMonth()) {
-                    alert('Informe o mês de validade do cartão de cŕedito.');
+                    alert('Informe o mês de validade do cartão de crédito.');
                     return false;
                 }
                 if (!this.card_id() && !this.creditCardExpYear()) {
-                    alert('Informe o ano de validade do cartão de cŕedito.');
+                    alert('Informe o ano de validade do cartão de crédito.');
                     return false;
                 }
                 if (!this.card_id() && !this.creditCardVerificationNumber()) {
-                    alert('Informe o CVV do cartão de cŕedito.');
+                    alert('Informe o CVV do cartão de crédito.');
                     return false;
                 }
                 return true;
